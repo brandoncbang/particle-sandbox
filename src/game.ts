@@ -1,3 +1,5 @@
+import { startGameLoop } from "./core/game-loop";
+
 let ball = {
   radius: 12,
   color: "firebrick",
@@ -42,7 +44,7 @@ function render(ctx: CanvasRenderingContext2D) {
   ctx.fill();
 }
 
-function setUpGame(canvas: HTMLCanvasElement) {
+export function setUpGame(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
 
   if (ctx === null) {
@@ -50,36 +52,5 @@ function setUpGame(canvas: HTMLCanvasElement) {
     return;
   }
 
-  const timeStep = 1.0 / 60.0;
-
-  let previousTime = 0.0;
-  let lag = 0.0;
-
-  const loop = (currentTime: DOMHighResTimeStamp) => {
-    const delta = currentTime - previousTime;
-
-    lag += delta;
-
-    previousTime = currentTime;
-
-    input();
-
-    while (lag >= timeStep) {
-      process(timeStep);
-
-      lag -= timeStep;
-    }
-
-    render(ctx);
-
-    window.requestAnimationFrame(loop);
-  };
-
-  window.requestAnimationFrame((time: DOMHighResTimeStamp) => {
-    previousTime = time;
-
-    window.requestAnimationFrame(loop);
-  });
+  startGameLoop(input, process, () => render(ctx));
 }
-
-export { setUpGame };
