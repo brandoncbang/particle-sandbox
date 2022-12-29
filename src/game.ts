@@ -1,5 +1,6 @@
 import { startGameLoop } from "./core/game-loop";
 import { getMousePosition, getMousePressed, setUpInput } from "./core/input";
+import { Position, drawLine } from "./core/math";
 
 export function setUpGame(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
@@ -16,11 +17,20 @@ export function setUpGame(canvas: HTMLCanvasElement) {
 
   const input = () => {};
 
+  let currentMousePosition = getMousePosition();
+  let lastMousePosition = currentMousePosition;
+
   const process = () => {
+    currentMousePosition = getMousePosition();
+
     if (getMousePressed()) {
-      ctx.fillStyle = "black";
-      ctx.fillRect(getMousePosition().x, getMousePosition().y, 1, 1);
+      drawLine(lastMousePosition, currentMousePosition, (p: Position) => {
+        ctx.fillStyle = "black";
+        ctx.fillRect(p.x, p.y, 1, 1);
+      });
     }
+
+    lastMousePosition = currentMousePosition;
   };
 
   const render = () => {

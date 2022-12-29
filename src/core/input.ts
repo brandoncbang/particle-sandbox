@@ -1,6 +1,6 @@
-import { clamp } from "./math";
+import { clamp, Position } from "./math";
 
-let mousePosition: { x: number; y: number } = {
+let mousePosition: Position = {
   x: 0,
   y: 0,
 };
