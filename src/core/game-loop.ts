@@ -1,6 +1,6 @@
 export function startGameLoop(
   inputCallback: () => void,
-  processCallback: (_delta: number) => void,
+  processCallback: (delta: number) => void,
   renderCallback: () => void,
   timestep: number = 1.0 / 60.0
 ) {
