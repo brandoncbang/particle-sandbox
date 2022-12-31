@@ -2,24 +2,29 @@ export function startGameLoop(
   inputCallback: () => void,
   processCallback: (delta: number) => void,
   renderCallback: () => void,
-  timestep: number = 1.0 / 60.0
+  {
+    targetFps = 15,
+    fpsCounter = null,
+  }: { targetFps?: number; fpsCounter?: HTMLElement | null }
 ) {
-  let previousTime = 0.0;
-  let lag = 0.0;
+  const timestep = (1.0 / targetFps) * 1000;
+
+  let previousTime: DOMHighResTimeStamp;
 
   const loop = (currentTime: DOMHighResTimeStamp) => {
     const delta = currentTime - previousTime;
-
-    lag += delta;
-
-    previousTime = currentTime;
+    const fps = 1.0 / (delta / 1000.0);
 
     inputCallback();
 
-    while (lag >= timestep) {
-      processCallback(timestep);
+    if (delta > timestep) {
+      if (fpsCounter !== null) {
+        fpsCounter.textContent = `${fps.toFixed(2)}`;
+      }
 
-      lag -= timestep;
+      previousTime = currentTime - (delta % timestep);
+
+      processCallback(delta);
     }
 
     renderCallback();
