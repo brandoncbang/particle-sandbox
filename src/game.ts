@@ -38,5 +38,7 @@ export function setUpGame(canvas: HTMLCanvasElement) {
     // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   };
 
-  startGameLoop(input, process, render);
+  startGameLoop(input, process, render, {
+    fpsCounter: document.querySelector("#fps") as HTMLDivElement,
+  });
 }
