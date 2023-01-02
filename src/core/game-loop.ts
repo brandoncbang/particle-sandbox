@@ -17,7 +17,7 @@ export function startGameLoop(
 
     inputCallback();
 
-    if (delta > timestep) {
+    if (delta >= timestep) {
       if (fpsCounter !== null) {
         fpsCounter.textContent = `${fps.toFixed(2)}`;
       }
