@@ -5,7 +5,7 @@ export function startGameLoop(
   {
     targetFps = 60,
     fpsCounter = null,
-  }: { targetFps?: number; fpsCounter?: HTMLElement | null }
+  }: { targetFps?: number; fpsCounter?: HTMLElement | null } = {}
 ) {
   const timestep = (1.0 / targetFps) * 1000;
 
