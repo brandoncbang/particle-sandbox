@@ -3,7 +3,7 @@ export function startGameLoop(
   processCallback: (delta: number) => void,
   renderCallback: () => void,
   {
-    targetFps = 15,
+    targetFps = 60,
     fpsCounter = null,
   }: { targetFps?: number; fpsCounter?: HTMLElement | null }
 ) {
