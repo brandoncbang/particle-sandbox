@@ -1,9 +1,9 @@
 import { startGameLoop } from "./core/game-loop";
 import { getMousePosition, getMousePressed, setUpInput } from "./core/input";
 import { Position, drawLine } from "./core/math";
-import { Material, processMaterial } from "./game/material";
+import { Material } from "./game/material";
 import { getParticleApi } from "./game/particle";
-import { getBlankWorld } from "./game/world";
+import { getBlankWorld, processWorld } from "./game/world";
 
 export function setUpGame(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
@@ -37,11 +37,7 @@ export function setUpGame(canvas: HTMLCanvasElement) {
       });
     }
 
-    for (let x = 300 - 1; x >= 0; x -= 1) {
-      for (let y = 200 - 1; y >= 0; y -= 1) {
-        processMaterial(getParticleApi(state, x, y));
-      }
-    }
+    processWorld(state);
 
     lastMousePosition = currentMousePosition;
   };
@@ -64,7 +60,5 @@ export function setUpGame(canvas: HTMLCanvasElement) {
     }
   };
 
-  startGameLoop(input, process, render, {
-    fpsCounter: document.querySelector("#fps") as HTMLDivElement,
-  });
+  startGameLoop(input, process, render);
 }
