@@ -1,3 +1,5 @@
+import { Material } from "./material";
+
 export type GameConfig = {
   rendering: {
     scale: number;
@@ -8,4 +10,5 @@ export type GameConfig = {
     height: number;
     boundary: "solid" | "void"; // | "loop";
   };
+  materials: { [key in Material]?: { color: string } };
 };

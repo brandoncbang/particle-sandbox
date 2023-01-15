@@ -84,7 +84,7 @@ export function renderWorld(ctx: CanvasRenderingContext2D, world: World) {
 
     const [x, y] = getWorldPosition(i);
 
-    ctx.fillStyle = "khaki";
+    ctx.fillStyle = config.materials[material]?.color ?? "magenta";
     ctx.fillRect(x, y, 1, 1);
   }
 }
