@@ -1,6 +1,6 @@
 import { Material, processMaterial } from "./material";
 import { getParticleApi } from "./particle";
-import { getRandomInt } from "../core/math";
+import { getShuffled, range } from "../core/math";
 import { config } from "../../game.config";
 
 function getWorldIndex(x: number, y: number): number {
@@ -11,25 +11,15 @@ function getWorldPosition(index: number): Position {
   return [index % config.world.width, Math.floor(index / config.world.width)];
 }
 
-/**
- * Get an array of randomized non-empty positions to process to overcome bias.
- */
-function getShuffledWorldPositions(world: World) {
-  let result: [number, number][] = [];
+function getNonEmptyIndexes(world: World): number[] {
+  let result = [];
 
-  for (let x = 0; x < config.world.width; x += 1) {
-    for (let y = 0; y < config.world.height; y += 1) {
-      if (getWorldParticleAt(world, x, y) === Material.Empty) {
-        continue;
-      }
-
-      result.push([x, y]);
+  for (const i of range(world.length)) {
+    if (world[i] === Material.Empty) {
+      continue;
     }
-  }
 
-  for (let i = result.length - 1; i >= 0; i -= 1) {
-    const randomIndex = getRandomInt(0, i);
-    [result[i], result[randomIndex]] = [result[randomIndex], result[i]];
+    result.push(i);
   }
 
   return result;
@@ -69,8 +59,12 @@ export function setWorldParticleAt(
 }
 
 export function processWorld(world: World) {
-  for (const [x, y] of getShuffledWorldPositions(world)) {
-    processMaterial(getParticleApi(world, x, y));
+  for (const i of getShuffled(getNonEmptyIndexes(world))) {
+    if (getWorldParticleAt(world, ...getWorldPosition(i)) === null) {
+      continue;
+    }
+
+    processMaterial(getParticleApi(world, ...getWorldPosition(i)));
   }
 }
 
