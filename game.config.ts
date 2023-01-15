@@ -4,5 +4,6 @@ export const config: GameConfig = {
   world: {
     width: 300,
     height: 200,
+    boundary: "solid",
   },
 };

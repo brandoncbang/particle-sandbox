@@ -39,6 +39,13 @@ export function getWorldParticleAt(
   y: number
 ): Material {
   if (x < 0 || y < 0 || x >= config.world.width || y >= config.world.height) {
+    if (config.world.boundary === "solid") {
+      return Material.Brick;
+    }
+    if (config.world.boundary === "void") {
+      return Material.Empty;
+    }
+
     throw new Error("Particle read position is out of bounds.");
   }
 
@@ -52,7 +59,7 @@ export function setWorldParticleAt(
   material: Material
 ) {
   if (x < 0 || y < 0 || x >= config.world.width || y >= config.world.height) {
-    throw new Error("Particle write position is out of bounds.");
+    return;
   }
 
   world[getWorldIndex(x, y)] = material;
@@ -60,10 +67,6 @@ export function setWorldParticleAt(
 
 export function processWorld(world: World) {
   for (const i of getShuffled(getNonEmptyIndexes(world))) {
-    if (getWorldParticleAt(world, ...getWorldPosition(i)) === null) {
-      continue;
-    }
-
     processMaterial(getParticleApi(world, ...getWorldPosition(i)));
   }
 }
