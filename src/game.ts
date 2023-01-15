@@ -5,8 +5,10 @@ import { Material } from "./game/material";
 import { getParticleApi } from "./game/particle";
 import { getBlankWorld, processWorld, renderWorld } from "./game/world";
 import { config } from "../game.config";
+import { setUpCanvas } from "./core/canvas";
 
 export function setUpGame(canvas: HTMLCanvasElement) {
+  setUpCanvas(canvas);
   const ctx = canvas.getContext("2d");
 
   if (ctx === null) {
