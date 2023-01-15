@@ -1,8 +1,3 @@
-export type Position = {
-  x: number;
-  y: number;
-};
-
 /**
  * Return a number clamped to a range from `min` to `max` (inclusive).
  */
@@ -11,14 +6,13 @@ export function clamp(n: number, min: number, max: number) {
 }
 
 export function drawLine(
-  p1: Position,
-  p2: Position,
-  drawCallback: (p: Position) => void
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  drawCallback: (x: number, y: number) => void
 ) {
-  let { x: x1, y: y1 } = p1;
-  let { x: x2, y: y2 } = p2;
-
-  drawCallback({ x: x1, y: y1 });
+  drawCallback(x1, y1);
 
   let dx = Math.abs(x2 - x1);
   let dy = Math.abs(y2 - y1);
@@ -38,7 +32,7 @@ export function drawLine(
       y1 += sy;
     }
 
-    drawCallback({ x: x1, y: y1 });
+    drawCallback(x1, y1);
   }
 }
 
@@ -50,4 +44,19 @@ export function getRandomInt(min: number, max: number) {
   max = Math.floor(max);
 
   return Math.floor(Math.random() * (max - min) + min);
+}
+
+export function range(length: number): number[] {
+  return Array.from({ length }, (_, i: number) => i);
+}
+
+export function getShuffled(array: any[]) {
+  let result = array;
+
+  for (let i = result.length - 1; i >= 0; i -= 1) {
+    const randomIndex = getRandomInt(0, i);
+    [result[i], result[randomIndex]] = [result[randomIndex], result[i]];
+  }
+
+  return result;
 }

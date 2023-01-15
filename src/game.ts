@@ -1,6 +1,6 @@
 import { startGameLoop } from "./core/game-loop";
 import { getMousePosition, getMousePressed, setUpInput } from "./core/input";
-import { Position, drawLine } from "./core/math";
+import { drawLine } from "./core/math";
 import { Material } from "./game/material";
 import { getParticleApi } from "./game/particle";
 import { getBlankWorld, processWorld, renderWorld } from "./game/world";
@@ -27,8 +27,8 @@ export function setUpGame(canvas: HTMLCanvasElement) {
     currentMousePosition = getMousePosition();
 
     if (getMousePressed()) {
-      drawLine(lastMousePosition, currentMousePosition, (p: Position) => {
-        const { setParticleAt } = getParticleApi(world, p.x, p.y);
+      drawLine(...lastMousePosition, ...currentMousePosition, (x, y) => {
+        const { setParticleAt } = getParticleApi(world, x, y);
 
         for (let x = -1; x <= 1; x += 1) {
           for (let y = -1; y <= 1; y += 1) {

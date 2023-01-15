@@ -1,9 +1,7 @@
-import { clamp, Position } from "./math";
+import { clamp } from "./math";
+import { Position } from "../game/world";
 
-let mousePosition: Position = {
-  x: 0,
-  y: 0,
-};
+let mousePosition: Position = [0, 0];
 
 let mousePressed: boolean = false;
 
@@ -20,15 +18,15 @@ export function setUpInput(canvas: HTMLCanvasElement) {
     const bounds = canvas.getBoundingClientRect();
     const scale = canvas.width / bounds.width;
 
-    const relativePosition = {
-      x: Math.floor((e.clientX - bounds.left) * scale),
-      y: Math.floor((e.clientY - bounds.top) * scale),
-    };
+    const [relativeX, relativeY] = [
+      Math.floor((e.clientX - bounds.left) * scale),
+      Math.floor((e.clientY - bounds.top) * scale),
+    ];
 
-    mousePosition = {
-      x: clamp(relativePosition.x, 0, canvas.width - 1),
-      y: clamp(relativePosition.y, 0, canvas.height - 1),
-    };
+    mousePosition = [
+      clamp(relativeX, 0, canvas.width - 1),
+      clamp(relativeY, 0, canvas.height - 1),
+    ];
   });
 }
 

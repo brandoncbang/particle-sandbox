@@ -7,7 +7,7 @@ function getWorldIndex(x: number, y: number): number {
   return y * config.world.width + x;
 }
 
-function getWorldPosition(index: number): [number, number] {
+function getWorldPosition(index: number): Position {
   return [index % config.world.width, Math.floor(index / config.world.width)];
 }
 
@@ -36,6 +36,8 @@ function getShuffledWorldPositions(world: World) {
 }
 
 export type World = Material[];
+
+export type Position = [x: number, y: number];
 
 export function getBlankWorld(width: number, height: number): World {
   return Array(width * height).fill(Material.Empty);
