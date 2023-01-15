@@ -72,7 +72,7 @@ export function processWorld(world: World) {
 }
 
 export function renderWorld(ctx: CanvasRenderingContext2D, world: World) {
-  ctx.fillStyle = "cornflowerblue";
+  ctx.fillStyle = config.rendering.backgroundColor;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   for (let i = 0; i < world.length; i += 1) {

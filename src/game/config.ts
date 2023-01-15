@@ -1,6 +1,7 @@
 export type GameConfig = {
   rendering: {
     scale: number;
+    backgroundColor: string;
   };
   world: {
     width: number;
