@@ -75,14 +75,9 @@ export function renderWorld(ctx: CanvasRenderingContext2D, world: World) {
   ctx.fillStyle = config.rendering.backgroundColor;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-  for (let i = 0; i < world.length; i += 1) {
-    const material = world[i];
-
-    if (material === Material.Empty) {
-      continue;
-    }
-
+  for (const i of getNonEmptyIndexes(world)) {
     const [x, y] = getWorldPosition(i);
+    const material = world[i];
 
     ctx.fillStyle = config.materials[material]?.color ?? "magenta";
     ctx.fillRect(x, y, 1, 1);
