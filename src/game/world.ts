@@ -47,9 +47,9 @@ export function getWorldParticleAt(
   world: World,
   x: number,
   y: number
-): Material | null {
+): Material {
   if (x < 0 || y < 0 || x >= config.world.width || y >= config.world.height) {
-    return null;
+    throw new Error("Particle read position is out of bounds.");
   }
 
   return world[getWorldIndex(x, y)];
@@ -62,7 +62,7 @@ export function setWorldParticleAt(
   material: Material
 ) {
   if (x < 0 || y < 0 || x >= config.world.width || y >= config.world.height) {
-    return;
+    throw new Error("Particle write position is out of bounds.");
   }
 
   world[getWorldIndex(x, y)] = material;

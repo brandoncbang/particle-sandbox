@@ -2,7 +2,7 @@ import { Material } from "./material";
 import { getWorldParticleAt, setWorldParticleAt, World } from "./world";
 
 export type ParticleApi = {
-  particle: Material | null;
+  particle: Material;
   getParticleAt: (x: number, y: number) => Material | null;
   setParticleAt: (x: number, y: number, material: Material) => void;
 };
