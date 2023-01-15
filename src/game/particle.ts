@@ -1,33 +1,21 @@
 import { Material } from "./material";
-import { World } from "./world";
+import { getWorldParticleAt, setWorldParticleAt, World } from "./world";
 
 export type ParticleApi = {
-  particle: Material;
+  particle: Material | null;
   getParticleAt: (x: number, y: number) => Material | null;
   setParticleAt: (x: number, y: number, material: Material) => void;
 };
 
 export function getParticleApi(
-  state: World,
+  world: World,
   x: number,
   y: number
 ): ParticleApi {
-  const particle = state[x][y];
+  const particle = getWorldParticleAt(world, x, y);
 
   const getParticleAt = (localX: number, localY: number): Material | null => {
-    const worldX = x + localX;
-    const worldY = y + localY;
-
-    if (
-      worldX < 0 ||
-      worldY < 0 ||
-      worldX >= state.length ||
-      worldY >= state[x].length
-    ) {
-      return null;
-    }
-
-    return state[x + localX][y + localY];
+    return getWorldParticleAt(world, x + localX, y + localY);
   };
 
   const setParticleAt = (
@@ -35,19 +23,7 @@ export function getParticleApi(
     localY: number,
     material: Material
   ) => {
-    const worldX = x + localX;
-    const worldY = y + localY;
-
-    if (
-      worldX < 0 ||
-      worldY < 0 ||
-      worldX >= state.length ||
-      worldY >= state[x].length
-    ) {
-      return;
-    }
-
-    state[x + localX][y + localY] = material;
+    setWorldParticleAt(world, x + localX, y + localY, material);
   };
 
   return { particle, getParticleAt, setParticleAt };
