@@ -66,6 +66,35 @@ function processPowder({
   }
 }
 
-function processLiquid({}: ParticleApi) {}
+function processLiquid({
+  particle,
+  getParticleAt,
+  setParticleAt,
+  getAlreadyModified,
+}: ParticleApi) {
+  processPowder({ particle, getParticleAt, setParticleAt, getAlreadyModified });
+
+  if (getAlreadyModified()) {
+    return;
+  }
+
+  let newX = 0;
+
+  if (getParticleAt(1, 0) === particle) {
+    newX = -1;
+  }
+  if (getParticleAt(-1, 0) === particle) {
+    newX = 1;
+  }
+
+  if (newX === 0) {
+    newX = getRandomInt(-1, 2);
+  }
+
+  if (getParticleAt(newX, 0) === Material.Empty) {
+    setParticleAt(0, 0, getParticleAt(newX, 0));
+    setParticleAt(newX, 0, particle);
+  }
+}
 
 function processGas({}: ParticleApi) {}
