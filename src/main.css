@@ -12,17 +12,25 @@ body {
     background-color: #000;
 }
 
+#game-container {
+    display: flex;
+    flex-direction: column;
+    max-width: min-content;
+}
+
 #ui {
     font-family: sans-serif;
 }
 
 #ui > #materials {
-    padding: 0 3px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
 }
 
 #ui > #materials > button {
     display: inline;
-    margin: 8px 8px 0 0;
     padding: 6px 10px;
     border: none;
     font-family: inherit;
@@ -30,10 +38,6 @@ body {
     text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     background-color: var(--material-color);
     cursor: pointer;
-}
-
-#ui > #materials > button:last-child {
-    margin-right: 0;
 }
 
 #ui > #materials > button.selected {
