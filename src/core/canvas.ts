@@ -10,4 +10,5 @@ export function setUpCanvas(canvas: HTMLCanvasElement) {
   canvas.style.width = `${config.world.width * config.rendering.scale}px`;
   canvas.style.height = `${config.world.height * config.rendering.scale}px`;
   canvas.style.imageRendering = "pixelated";
+  canvas.style.backgroundColor = config.rendering.backgroundColor;
 }

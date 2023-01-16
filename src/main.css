@@ -1,0 +1,39 @@
+:root {
+    --material-color: magenta;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+}
+
+#ui {
+    font-family: sans-serif;
+}
+
+#ui > #materials {
+    padding: 0 3px;
+}
+
+#ui > #materials > button {
+    display: inline;
+    margin: 8px 8px 0 0;
+    padding: 4px 8px;
+    border: none;
+    font-family: inherit;
+    background-color: var(--material-color);
+    cursor: pointer;
+}
+
+#ui > #materials > button:last-child {
+    margin-right: 0;
+}
+
+#ui > #materials > button.selected {
+    box-shadow: #000 0 0 0 1px, var(--material-color) 0 0 0 3px;
+}

@@ -6,8 +6,9 @@ import { getParticleApi } from "./game/particle";
 import { getBlankWorld, processWorld, renderWorld } from "./game/world";
 import { config } from "../game.config";
 import { setUpCanvas } from "./core/canvas";
+import { setUpUi } from "./game/ui";
 
-export function setUpGame(canvas: HTMLCanvasElement) {
+export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
   setUpCanvas(canvas);
   const ctx = canvas.getContext("2d");
 
@@ -18,9 +19,17 @@ export function setUpGame(canvas: HTMLCanvasElement) {
 
   setUpInput(canvas);
 
+  const input = () => {};
+
   let world = getBlankWorld(config.world.width, config.world.height);
 
-  const input = () => {};
+  let currentMaterial = Material.Sand;
+
+  const { onMaterialSelected } = setUpUi(uiContainer);
+
+  onMaterialSelected((material: Material) => {
+    currentMaterial = material;
+  });
 
   let currentMousePosition = getMousePosition();
   let lastMousePosition = currentMousePosition;
@@ -34,7 +43,7 @@ export function setUpGame(canvas: HTMLCanvasElement) {
 
         for (let x = -1; x <= 1; x += 1) {
           for (let y = -1; y <= 1; y += 1) {
-            setParticleAt(x, y, Material.Sand);
+            setParticleAt(x, y, currentMaterial);
           }
         }
       });

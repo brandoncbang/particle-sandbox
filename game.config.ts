@@ -13,7 +13,7 @@ export const config: GameConfig = {
   },
   materials: {
     [Material.Empty]: {
-      color: "transparent",
+      color: "cornflowerblue",
     },
     [Material.Sand]: {
       color: "khaki",

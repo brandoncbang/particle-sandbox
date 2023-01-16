@@ -5,15 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Particle Sandbox</title>
-    <style>
-      body {
-        background-color: #000;
-      }
-    </style>
+    <link rel="stylesheet" href="/src/main.css">
   </head>
   <body>
     <div id="fps" style="position: absolute; top: 8px; right: 8px; color: white;"></div>
     <canvas id="game"></canvas>
+    <div id="ui">
+      <div id="materials"></div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
