@@ -39,10 +39,17 @@ export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
 
     if (getMousePressed()) {
       drawLine(...lastMousePosition, ...currentMousePosition, (x, y) => {
-        const { setParticleAt } = getParticleApi(world, x, y);
+        const { getParticleAt, setParticleAt } = getParticleApi(world, x, y);
 
         for (let x = -1; x <= 1; x += 1) {
           for (let y = -1; y <= 1; y += 1) {
+            if (
+              currentMaterial !== Material.Empty &&
+              getParticleAt(x, y) !== Material.Empty
+            ) {
+              continue;
+            }
+
             setParticleAt(x, y, currentMaterial);
           }
         }
