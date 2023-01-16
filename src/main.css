@@ -23,9 +23,11 @@ body {
 #ui > #materials > button {
     display: inline;
     margin: 8px 8px 0 0;
-    padding: 4px 8px;
+    padding: 6px 10px;
     border: none;
     font-family: inherit;
+    color: white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     background-color: var(--material-color);
     cursor: pointer;
 }
@@ -35,5 +37,5 @@ body {
 }
 
 #ui > #materials > button.selected {
-    box-shadow: #000 0 0 0 1px, var(--material-color) 0 0 0 3px;
+    box-shadow: #000 0 0 0 2px, red 0 0 0 4px;
 }
