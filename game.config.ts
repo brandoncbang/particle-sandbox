@@ -15,8 +15,29 @@ export const config: GameConfig = {
     [Material.Empty]: {
       color: "cornflowerblue",
     },
+    [Material.Wood]: {
+      color: "peru",
+    },
+    [Material.Brick]: {
+      color: "crimson",
+    },
     [Material.Sand]: {
       color: "khaki",
+    },
+    [Material.Gunpowder]: {
+      color: "dimgray",
+    },
+    [Material.Water]: {
+      color: "blue",
+    },
+    [Material.Oil]: {
+      color: "black",
+    },
+    [Material.Steam]: {
+      color: "whitesmoke",
+    },
+    [Material.Fire]: {
+      color: "orange",
     },
   },
 };
