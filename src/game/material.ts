@@ -91,7 +91,7 @@ function processLiquid({
   }
 
   if (getParticleAt(newX, 0) === Material.Empty) {
-    setParticleAt(0, 0, getParticleAt(newX, 0));
+    setParticleAt(0, 0, Material.Empty);
     setParticleAt(newX, 0, particle);
   }
 }
