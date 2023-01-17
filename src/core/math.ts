@@ -37,11 +37,11 @@ export function drawLine(
 }
 
 /**
- * Return a whole number between `min` (inclusive) & `max` (exclusive).
+ * Return a whole number between `min`  & `max` (inclusive).
  */
-export function getRandomInt(min: number, max: number) {
+export function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
-  max = Math.floor(max);
+  max = Math.floor(max) + 1;
 
   return Math.floor(Math.random() * (max - min) + min);
 }
