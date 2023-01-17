@@ -87,7 +87,7 @@ function processLiquid({
   }
 
   if (newX === 0) {
-    newX = getRandomInt(-1, 2);
+    newX = getRandomInt(-1, 1);
   }
 
   if (getParticleAt(newX, 0) === Material.Empty) {
