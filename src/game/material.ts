@@ -96,4 +96,12 @@ function processLiquid({
   }
 }
 
-function processGas({}: ParticleApi) {}
+function processGas({ particle, getParticleAt, setParticleAt }: ParticleApi) {
+  const newX = getRandomInt(-1, 1);
+  const newY = getRandomInt(-1, 1);
+
+  if (getParticleAt(newX, newY) === Material.Empty) {
+    setParticleAt(0, 0, Material.Empty);
+    setParticleAt(newX, newY, particle);
+  }
+}
