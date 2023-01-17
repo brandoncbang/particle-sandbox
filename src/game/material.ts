@@ -1,5 +1,5 @@
 import { ParticleApi } from "./particle";
-import { getRandomInt } from "../core/math";
+import { getRandomIndex, getRandomInt } from "../core/math";
 
 export enum Material {
   Empty,
@@ -56,8 +56,7 @@ function processPowder({
   }
 
   if (slidePositions.length > 0) {
-    const slidePosition =
-      slidePositions[getRandomInt(0, slidePositions.length)];
+    const slidePosition = slidePositions[getRandomIndex(slidePositions.length)];
 
     setParticleAt(0, 0, Material.Empty);
     setParticleAt(...slidePosition, particle);

@@ -46,6 +46,13 @@ export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+/**
+ * Return a whole number between 0 and `length` (exclusive).
+ */
+export function getRandomIndex(length: number): number {
+  return getRandomInt(0, length - 1);
+}
+
 export function range(length: number): number[] {
   return Array.from({ length }, (_, i: number) => i);
 }
@@ -54,7 +61,7 @@ export function getShuffled(array: any[]) {
   let result = array;
 
   for (let i = result.length - 1; i >= 0; i -= 1) {
-    const randomIndex = getRandomInt(0, i);
+    const randomIndex = getRandomIndex(i);
     [result[i], result[randomIndex]] = [result[randomIndex], result[i]];
   }
 
