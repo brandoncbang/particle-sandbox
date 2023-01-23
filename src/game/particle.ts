@@ -1,5 +1,28 @@
-import { Material } from "./material";
+import { Material } from "./material/material";
 import { getWorldParticleAt, setWorldParticleAt, World } from "./world";
+
+export type Particle = {
+  material: Material; // Particle's Material.
+  registers: [number, number]; // Associate custom number data with the Particle.
+  updates: number; // Amount of updates performed on the Particle this frame.
+};
+
+// const api: ParticleApi;
+//
+// let particle: Particle = {
+//   material: Material.Fire,
+//   registers: [5, 0],
+//   updates: 0,
+// };
+//
+// particle.registers[0] -= 1;
+//
+// if (particle.registers[0] <= 0) {
+//   particle.material = Material.Empty;
+//   api.setEmptyAt(0, 0);
+// }
+//
+// particle.updates += 1;
 
 export type ParticleApi = {
   particle: Material;

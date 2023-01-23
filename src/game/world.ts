@@ -1,4 +1,4 @@
-import { Material, processMaterial } from "./material";
+import { Material, processMaterial } from "./material/material";
 import { getParticleApi } from "./particle";
 import { getShuffled, range } from "../core/math";
 import { config } from "../../game.config";

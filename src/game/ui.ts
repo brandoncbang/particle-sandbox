@@ -1,4 +1,4 @@
-import { Material } from "./material";
+import { Material } from "./material/material";
 import { config } from "../../game.config";
 
 function setUpMaterialSelectionButtons(container: HTMLElement) {

@@ -1,7 +1,7 @@
 import { startGameLoop } from "./core/game-loop";
 import { getMousePosition, getMousePressed, setUpInput } from "./core/input";
 import { drawLine } from "./core/math";
-import { Material } from "./game/material";
+import { Material } from "./game/material/material";
 import { getParticleApi } from "./game/particle";
 import { getBlankWorld, processWorld, renderWorld } from "./game/world";
 import { config } from "../game.config";
