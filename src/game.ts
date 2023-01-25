@@ -45,12 +45,16 @@ export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
           for (let y = -1; y <= 1; y += 1) {
             if (
               currentMaterial !== Material.Empty &&
-              getParticleAt(x, y) !== Material.Empty
+              getParticleAt(x, y).material !== Material.Empty
             ) {
               continue;
             }
 
-            setParticleAt(x, y, currentMaterial);
+            setParticleAt(x, y, {
+              material: currentMaterial,
+              registers: [0, 0],
+              updates: 0,
+            });
           }
         }
       });

@@ -3,8 +3,12 @@ import { getRandomIndex, getRandomInt } from "../../core/math";
 import { Material } from "./material";
 
 export function processPowder(api: ParticleApi) {
-  if (api.getParticleAt(0, 1) === Material.Empty) {
-    api.setParticleAt(0, 0, Material.Empty);
+  if (
+    [Material.Empty, Material.Steam, Material.Fire].includes(
+      api.getParticleAt(0, 1).material
+    )
+  ) {
+    api.setParticleAt(0, 0, api.getParticleAt(0, 1));
     api.setParticleAt(0, 1, api.particle);
 
     return;
@@ -12,17 +16,17 @@ export function processPowder(api: ParticleApi) {
 
   let slidePositions: [number, number][] = [];
 
-  if (api.getParticleAt(-1, 1) === Material.Empty) {
+  if (api.getParticleAt(-1, 1).material === Material.Empty) {
     slidePositions.push([-1, 1]);
   }
-  if (api.getParticleAt(1, 1) === Material.Empty) {
+  if (api.getParticleAt(1, 1).material === Material.Empty) {
     slidePositions.push([1, 1]);
   }
 
   if (slidePositions.length > 0) {
     const slidePosition = slidePositions[getRandomIndex(slidePositions.length)];
 
-    api.setParticleAt(0, 0, Material.Empty);
+    api.setEmptyAt(0, 0);
     api.setParticleAt(...slidePosition, api.particle);
 
     return;
@@ -40,15 +44,19 @@ export function processGunpowder(api: ParticleApi) {
 
   const reactParticle = api.getParticleAt(reactX, reactY);
 
-  if (reactParticle === Material.Fire) {
+  if (reactParticle.material === Material.Fire) {
     for (let x = -1; x <= 1; x += 1) {
       for (let y = -1; y <= 1; y += 1) {
         if (
           [Material.Gunpowder, Material.Empty].includes(
-            api.getParticleAt(reactX + x, reactY + y)
+            api.getParticleAt(reactX + x, reactY + y).material
           )
         ) {
-          api.setParticleAt(reactX + x, reactY + y, Material.Fire);
+          api.setParticleAt(reactX + x, reactY + y, {
+            material: Material.Fire,
+            registers: [0, 0],
+            updates: 0,
+          });
         }
       }
     }

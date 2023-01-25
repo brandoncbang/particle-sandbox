@@ -7,27 +7,11 @@ export type Particle = {
   updates: number; // Amount of updates performed on the Particle this frame.
 };
 
-// const api: ParticleApi;
-//
-// let particle: Particle = {
-//   material: Material.Fire,
-//   registers: [5, 0],
-//   updates: 0,
-// };
-//
-// particle.registers[0] -= 1;
-//
-// if (particle.registers[0] <= 0) {
-//   particle.material = Material.Empty;
-//   api.setEmptyAt(0, 0);
-// }
-//
-// particle.updates += 1;
-
 export type ParticleApi = {
-  particle: Material;
-  getParticleAt: (x: number, y: number) => Material;
-  setParticleAt: (x: number, y: number, material: Material) => void;
+  particle: Particle;
+  getParticleAt: (x: number, y: number) => Particle;
+  setParticleAt: (x: number, y: number, particle: Particle) => void;
+  setEmptyAt: (x: number, y: number) => void;
   getAlreadyModified: () => boolean;
 };
 
@@ -40,17 +24,25 @@ export function getParticleApi(
 
   let alreadyModified = false;
 
-  const getParticleAt = (localX: number, localY: number): Material => {
+  const getParticleAt = (localX: number, localY: number): Particle => {
     return getWorldParticleAt(world, x + localX, y + localY);
   };
 
   const setParticleAt = (
     localX: number,
     localY: number,
-    material: Material
+    particle: Particle
   ) => {
     alreadyModified = true;
-    setWorldParticleAt(world, x + localX, y + localY, material);
+    setWorldParticleAt(world, x + localX, y + localY, particle);
+  };
+
+  const setEmptyAt = (localX: number, localY: number) => {
+    setParticleAt(localX, localY, {
+      material: Material.Empty,
+      registers: [0, 0],
+      updates: 0,
+    });
   };
 
   /**
@@ -60,5 +52,11 @@ export function getParticleApi(
     return alreadyModified;
   };
 
-  return { particle, getParticleAt, setParticleAt, getAlreadyModified };
+  return {
+    particle,
+    getParticleAt,
+    setParticleAt,
+    setEmptyAt,
+    getAlreadyModified,
+  };
 }

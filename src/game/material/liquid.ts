@@ -23,13 +23,13 @@ export function processLiquid(api: ParticleApi) {
     newX = getRandomInt(-1, 1);
   }
 
-  if (api.getParticleAt(newX, 0) === Material.Empty) {
-    api.setParticleAt(0, 0, Material.Empty);
+  if (api.getParticleAt(newX, 0).material === Material.Empty) {
+    api.setEmptyAt(0, 0);
     api.setParticleAt(newX, 0, api.particle);
   }
 }
 
-export function processOil(api: ParticleApi) {
+export function processWater(api: ParticleApi) {
   let reactX = getRandomInt(-1, 1);
   let reactY = getRandomInt(-1, 1);
 
@@ -40,9 +40,35 @@ export function processOil(api: ParticleApi) {
 
   const reactParticle = api.getParticleAt(reactX, reactY);
 
-  if (reactParticle === Material.Fire) {
-    api.setParticleAt(0, 0, Material.Fire);
+  if (reactParticle.material === Material.Fire) {
+    api.setParticleAt(reactX, reactY, {
+      material: Material.Empty,
+      registers: [0, 0],
+      updates: 0,
+    });
   }
+
+  processLiquid(api);
+}
+
+export function processOil(api: ParticleApi) {
+  // let reactX = getRandomInt(-1, 1);
+  // let reactY = getRandomInt(-1, 1);
+  //
+  // while (reactX === 0 && reactY === 0) {
+  //   reactX = getRandomInt(-1, 1);
+  //   reactY = getRandomInt(-1, 1);
+  // }
+  //
+  // const reactParticle = api.getParticleAt(reactX, reactY);
+  //
+  // if (reactParticle.material === Material.Fire) {
+  //   api.setParticleAt(0, 0, {
+  //     material: Material.Fire,
+  //     registers: [0, 0],
+  //     updates: 0,
+  //   });
+  // }
 
   processLiquid(api);
 }

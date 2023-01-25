@@ -1,6 +1,6 @@
 import { processWood } from "./solid";
 import { processGunpowder, processPowder } from "./powder";
-import { processLiquid, processOil } from "./liquid";
+import { processLiquid, processOil, processWater } from "./liquid";
 import { processFire, processGas } from "./gas";
 import { ParticleApi } from "../particle";
 
@@ -21,7 +21,7 @@ export enum Material {
 }
 
 export function processMaterial(api: ParticleApi) {
-  switch (api.particle) {
+  switch (api.particle.material) {
     case Material.Wood:
       processWood(api);
       break;
@@ -32,7 +32,7 @@ export function processMaterial(api: ParticleApi) {
       processGunpowder(api);
       break;
     case Material.Water:
-      processLiquid(api);
+      processWater(api);
       break;
     case Material.Oil:
       processOil(api);
