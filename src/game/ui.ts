@@ -18,10 +18,13 @@ function setUpMaterialSelectionButtons(container: HTMLElement) {
     const material = Material[key as keyof typeof Material];
 
     let button = document.createElement("button");
-    button.style.setProperty(
-      "--material-color",
-      config.materials[material]?.color ?? "magenta"
-    );
+    const { r, g, b } = config.materials[material]?.color ?? {
+      r: 255,
+      g: 0,
+      b: 255,
+    };
+
+    button.style.setProperty("--material-color", `rgb(${r}, ${g}, ${b})`);
     button.textContent = key;
 
     button.addEventListener("click", (_) => {

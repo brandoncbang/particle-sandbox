@@ -72,7 +72,7 @@ export class World {
   process() {
     let nonEmptyPositions: Position[] = [];
 
-    for (let i = 0; i < this.state.length; i += 1) {
+    for (const i of range(this.state.length)) {
       const [x, y] = [i % this.width, Math.floor(i / this.width)];
 
       if (this.getParticleAt(x, y).material === Material.Empty) {
@@ -88,35 +88,43 @@ export class World {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = config.rendering.backgroundColor;
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    let imageData = ctx.createImageData(this.width, this.height);
 
-    for (const i of range(this.state.length)) {
+    for (let i = 0; i < imageData.data.length; i += 1) {
       const [x, y] = [
         i % config.world.width,
         Math.floor(i / config.world.width),
       ];
       const particle = this.getParticleAt(x, y);
 
-      if (particle.material === Material.Empty) {
-        continue;
-      }
+      const { r, g, b } = config.materials[particle.material]?.color ?? {
+        r: 255,
+        g: 0,
+        b: 255,
+      };
 
-      ctx.fillStyle = config.materials[particle.material]?.color ?? "magenta";
+      let pixelIndex = (y * this.width + x) * 4;
 
-      if (particle.material === Material.Fire) {
-        if (particle.r1 > 45) {
-          ctx.fillStyle = "red";
-        } else if (particle.r1 > 20 && particle.r1 <= 45) {
-          ctx.fillStyle = "orange";
-        } else if (particle.r1 > 5 && particle.r1 <= 20) {
-          ctx.fillStyle = "yellow";
-        } else {
-          ctx.fillStyle = "white";
-        }
-      }
+      imageData.data[pixelIndex] = r;
+      imageData.data[pixelIndex + 1] = g;
+      imageData.data[pixelIndex + 2] = b;
+      imageData.data[pixelIndex + 3] = 255;
 
-      ctx.fillRect(x, y, 1, 1);
+      // if (particle.material === Material.Fire) {
+      //   if (particle.r1 > 45) {
+      //     ctx.fillStyle = "red";
+      //   } else if (particle.r1 > 20 && particle.r1 <= 45) {
+      //     ctx.fillStyle = "orange";
+      //   } else if (particle.r1 > 5 && particle.r1 <= 20) {
+      //     ctx.fillStyle = "yellow";
+      //   } else {
+      //     ctx.fillStyle = "white";
+      //   }
+      // }
+      //
+      // ctx.fillRect(x, y, 1, 1);
     }
+
+    ctx.putImageData(imageData, 0, 0);
   }
 }

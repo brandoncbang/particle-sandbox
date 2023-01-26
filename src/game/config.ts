@@ -10,5 +10,7 @@ export type GameConfig = {
     height: number;
     boundary: "solid" | "void"; // | "loop";
   };
-  materials: { [key in Material]?: { color: string } };
+  materials: {
+    [key in Material]?: { color: { r: number; g: number; b: number } };
+  };
 };

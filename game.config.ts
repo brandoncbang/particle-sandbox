@@ -13,31 +13,67 @@ export const config: GameConfig = {
   },
   materials: {
     [Material.Empty]: {
-      color: "cornflowerblue",
+      color: {
+        r: 100,
+        g: 149,
+        b: 237,
+      },
     },
     [Material.Wood]: {
-      color: "peru",
+      color: {
+        r: 205,
+        g: 133,
+        b: 63,
+      },
     },
     [Material.Brick]: {
-      color: "crimson",
+      color: {
+        r: 220,
+        g: 20,
+        b: 60,
+      },
     },
     [Material.Sand]: {
-      color: "khaki",
+      color: {
+        r: 240,
+        g: 230,
+        b: 140,
+      },
     },
     [Material.Gunpowder]: {
-      color: "dimgray",
+      color: {
+        r: 105,
+        g: 105,
+        b: 105,
+      },
     },
     [Material.Water]: {
-      color: "blue",
+      color: {
+        r: 0,
+        g: 0,
+        b: 255,
+      },
     },
     [Material.Oil]: {
-      color: "black",
+      color: {
+        r: 0,
+        g: 0,
+        b: 0,
+      },
     },
     [Material.Steam]: {
-      color: "whitesmoke",
+      color: {
+        r: 245,
+        g: 245,
+        b: 245,
+      },
     },
     [Material.Fire]: {
-      color: "orange",
+      color: {
+        r: 255,
+        g: 165,
+        b: 0,
+      },
     },
   },
 };
