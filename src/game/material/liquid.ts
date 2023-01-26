@@ -43,7 +43,8 @@ export function processWater(api: ParticleApi) {
   if (reactParticle.material === Material.Fire) {
     api.setParticleAt(reactX, reactY, {
       material: Material.Empty,
-      registers: [0, 0],
+      r1: 0,
+      r2: 0,
       updates: 0,
     });
   }

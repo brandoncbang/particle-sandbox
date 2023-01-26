@@ -32,7 +32,8 @@ export function processFire(api: ParticleApi) {
   if (flammables.includes(reactParticle.material)) {
     api.setParticleAt(reactX, reactY, {
       material: Material.Fire,
-      registers: [0, 0],
+      r1: 0,
+      r2: 0,
       updates: 0,
     });
   }
@@ -46,7 +47,8 @@ export function processFire(api: ParticleApi) {
         ) {
           api.setParticleAt(reactX + x, reactY + y, {
             material: Material.Fire,
-            registers: [0, 0],
+            r1: 0,
+            r2: 0,
             updates: 0,
           });
         }
@@ -54,24 +56,27 @@ export function processFire(api: ParticleApi) {
     }
   }
 
-  if (api.particle.registers[0] >= 60) {
+  if (api.particle.r1 >= 60) {
     api.setEmptyAt(0, 0);
     return;
   }
 
-  const newY = getRandomInt(-1, 0);
+  // const newY = getRandomInt(-1, 0);
+  const newY = -1;
 
   if (api.getParticleAt(0, newY).material === Material.Empty) {
     api.setEmptyAt(0, 0);
     api.setParticleAt(0, newY, {
       material: api.particle.material,
-      registers: [api.particle.registers[0] + getRandomInt(1, 2), 0],
+      r1: api.particle.r1 + getRandomInt(1, 2),
+      r2: 0,
       updates: 0,
     });
   } else {
     api.setParticleAt(0, 0, {
       material: api.particle.material,
-      registers: [api.particle.registers[0] + getRandomInt(1, 2), 0],
+      r1: api.particle.r1 + getRandomInt(1, 2),
+      r2: 0,
       updates: 0,
     });
   }

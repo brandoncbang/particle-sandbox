@@ -1,9 +1,10 @@
 import { Material } from "./material/material";
-import { getWorldParticleAt, setWorldParticleAt, World } from "./world";
+import { World } from "./world";
 
 export type Particle = {
   material: Material; // Particle's Material.
-  registers: [number, number]; // Associate custom number data with the Particle.
+  r1: number; // Associate custom number data with the Particle.
+  r2: number;
   updates: number; // Amount of updates performed on the Particle this frame.
 };
 
@@ -20,12 +21,12 @@ export function getParticleApi(
   x: number,
   y: number
 ): ParticleApi {
-  const particle = getWorldParticleAt(world, x, y);
+  const particle = world.getParticleAt(x, y);
 
   let alreadyModified = false;
 
   const getParticleAt = (localX: number, localY: number): Particle => {
-    return getWorldParticleAt(world, x + localX, y + localY);
+    return world.getParticleAt(x + localX, y + localY);
   };
 
   const setParticleAt = (
@@ -34,13 +35,14 @@ export function getParticleApi(
     particle: Particle
   ) => {
     alreadyModified = true;
-    setWorldParticleAt(world, x + localX, y + localY, particle);
+    world.setParticleAt(x + localX, y + localY, particle);
   };
 
   const setEmptyAt = (localX: number, localY: number) => {
     setParticleAt(localX, localY, {
       material: Material.Empty,
-      registers: [0, 0],
+      r1: 0,
+      r2: 0,
       updates: 0,
     });
   };

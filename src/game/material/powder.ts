@@ -54,7 +54,8 @@ export function processGunpowder(api: ParticleApi) {
         ) {
           api.setParticleAt(reactX + x, reactY + y, {
             material: Material.Fire,
-            registers: [0, 0],
+            r1: 0,
+            r2: 0,
             updates: 0,
           });
         }

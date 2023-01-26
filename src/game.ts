@@ -3,7 +3,7 @@ import { getMousePosition, getMousePressed, setUpInput } from "./core/input";
 import { drawLine } from "./core/math";
 import { Material } from "./game/material/material";
 import { getParticleApi } from "./game/particle";
-import { getBlankWorld, processWorld, renderWorld } from "./game/world";
+import { World } from "./game/world";
 import { config } from "../game.config";
 import { setUpCanvas } from "./core/canvas";
 import { setUpUi } from "./game/ui";
@@ -21,7 +21,7 @@ export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
 
   const input = () => {};
 
-  let world = getBlankWorld(config.world.width, config.world.height);
+  let world = new World(config.world.width, config.world.height);
 
   let currentMaterial = Material.Sand;
 
@@ -52,7 +52,8 @@ export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
 
             setParticleAt(x, y, {
               material: currentMaterial,
-              registers: [0, 0],
+              r1: 0,
+              r2: 0,
               updates: 0,
             });
           }
@@ -60,13 +61,13 @@ export function setUpGame(canvas: HTMLCanvasElement, uiContainer: HTMLElement) {
       });
     }
 
-    processWorld(world);
+    world.process();
 
     lastMousePosition = currentMousePosition;
   };
 
   const render = () => {
-    renderWorld(ctx, world);
+    world.render(ctx);
   };
 
   startGameLoop(input, process, render);
