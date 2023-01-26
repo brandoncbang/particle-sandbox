@@ -1,6 +1,8 @@
 import { Material } from "./material/material";
 import { World } from "./world";
 
+export const PARTICLE_BYTES = 4;
+
 export type Particle = {
   material: Material; // Particle's Material.
   r1: number; // Associate custom number data with the Particle.

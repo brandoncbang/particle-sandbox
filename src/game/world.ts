@@ -1,5 +1,5 @@
 import { Material, processMaterial } from "./material/material";
-import { getParticleApi, Particle } from "./particle";
+import { getParticleApi, Particle, PARTICLE_BYTES } from "./particle";
 import { getShuffled } from "../core/math";
 import { config } from "../../game.config";
 
@@ -9,15 +9,13 @@ export class World {
   readonly width: number;
   readonly height: number;
 
-  private state: Uint32Array;
-  private view: DataView;
+  private readonly state: Uint8Array;
 
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
 
-    this.state = new Uint32Array(this.width * this.height);
-    this.view = new DataView(this.state.buffer);
+    this.state = new Uint8Array(this.width * this.height * PARTICLE_BYTES);
   }
 
   containsPosition(x: number, y: number): boolean {
@@ -46,13 +44,13 @@ export class World {
       throw new Error("Particle read position is out of bounds.");
     }
 
-    const index = (y * this.width + x) * 4;
+    const index = (y * this.width + x) * PARTICLE_BYTES;
 
     return {
-      material: this.view.getUint8(index),
-      r1: this.view.getUint8(index + 1),
-      r2: this.view.getUint8(index + 2),
-      updates: this.view.getUint8(index + 3),
+      material: this.state[index],
+      r1: this.state[index + 1],
+      r2: this.state[index + 2],
+      updates: this.state[index + 3],
     };
   }
 
@@ -61,25 +59,25 @@ export class World {
       return;
     }
 
-    const index = (y * this.width + x) * 4;
+    const index = (y * this.width + x) * PARTICLE_BYTES;
 
-    this.view.setUint8(index, particle.material);
-    this.view.setUint8(index + 1, particle.r1);
-    this.view.setUint8(index + 2, particle.r2);
-    this.view.setUint8(index + 3, particle.updates);
+    this.state[index] = particle.material;
+    this.state[index + 1] = particle.r1;
+    this.state[index + 2] = particle.r2;
+    this.state[index + 3] = particle.updates;
   }
 
   process() {
     let nonEmptyIndexes: number[] = [];
 
-    for (let i = 0; i < this.state.length; i += 1) {
-      const material: Material = this.view.getUint8(i * 4);
+    for (let i = 0; i < this.state.length; i += PARTICLE_BYTES) {
+      const material: Material = this.state[i];
 
       if (material === Material.Empty) {
         continue;
       }
 
-      nonEmptyIndexes.push(i);
+      nonEmptyIndexes.push(i / PARTICLE_BYTES);
     }
 
     for (const i of getShuffled(nonEmptyIndexes)) {
@@ -93,7 +91,8 @@ export class World {
     let imageData = ctx.createImageData(this.width, this.height);
 
     for (let i = 0; i < this.state.length; i += 1) {
-      const material: Material = this.view.getUint8(i * 4);
+      const stateIndex = PARTICLE_BYTES * Math.floor(i / PARTICLE_BYTES);
+      const material: Material = this.state[stateIndex];
 
       let { r, g, b } = config.materials[material]?.color ?? {
         r: 255,
@@ -102,7 +101,7 @@ export class World {
       };
 
       if (material === Material.Fire) {
-        const lifetime = this.view.getUint8(i * 4 + 1);
+        const lifetime = this.state[stateIndex + 1];
 
         if (lifetime > 45) {
           r = 255;
@@ -123,7 +122,8 @@ export class World {
         }
       }
 
-      const pixelIndex = i * 4;
+      const rgbaBytes = 4;
+      const pixelIndex = rgbaBytes * Math.floor(i / rgbaBytes);
 
       imageData.data[pixelIndex] = r;
       imageData.data[pixelIndex + 1] = g;
