@@ -90,20 +90,16 @@ export class World {
   render(ctx: CanvasRenderingContext2D) {
     let imageData = ctx.createImageData(this.width, this.height);
 
-    for (let i = 0; i < imageData.data.length; i += 1) {
-      const [x, y] = [
-        i % config.world.width,
-        Math.floor(i / config.world.width),
-      ];
-      const particle = this.getParticleAt(x, y);
+    for (let i = 0; i < this.state.length; i += 1) {
+      const material: Material = this.view.getUint8(i * 4);
 
-      const { r, g, b } = config.materials[particle.material]?.color ?? {
+      const { r, g, b } = config.materials[material]?.color ?? {
         r: 255,
         g: 0,
         b: 255,
       };
 
-      let pixelIndex = (y * this.width + x) * 4;
+      let pixelIndex = i * 4;
 
       imageData.data[pixelIndex] = r;
       imageData.data[pixelIndex + 1] = g;
