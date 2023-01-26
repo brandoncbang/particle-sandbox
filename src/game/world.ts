@@ -1,6 +1,6 @@
 import { Material, processMaterial } from "./material/material";
 import { getParticleApi, Particle } from "./particle";
-import { getShuffled, range } from "../core/math";
+import { getShuffled } from "../core/math";
 import { config } from "../../game.config";
 
 export type Position = [x: number, y: number];
@@ -70,20 +70,22 @@ export class World {
   }
 
   process() {
-    let nonEmptyPositions: Position[] = [];
+    let nonEmptyIndexes: number[] = [];
 
-    for (const i of range(this.state.length)) {
-      const [x, y] = [i % this.width, Math.floor(i / this.width)];
+    for (let i = 0; i < this.state.length; i += 1) {
+      const material: Material = this.view.getUint8(i * 4);
 
-      if (this.getParticleAt(x, y).material === Material.Empty) {
+      if (material === Material.Empty) {
         continue;
       }
 
-      nonEmptyPositions.push([x, y]);
+      nonEmptyIndexes.push(i);
     }
 
-    for (const [x, y] of getShuffled(nonEmptyPositions)) {
-      processMaterial(getParticleApi(this, x, y));
+    for (const i of getShuffled(nonEmptyIndexes)) {
+      processMaterial(
+        getParticleApi(this, i % this.width, Math.floor(i / this.width))
+      );
     }
   }
 
