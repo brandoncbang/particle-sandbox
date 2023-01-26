@@ -95,32 +95,40 @@ export class World {
     for (let i = 0; i < this.state.length; i += 1) {
       const material: Material = this.view.getUint8(i * 4);
 
-      const { r, g, b } = config.materials[material]?.color ?? {
+      let { r, g, b } = config.materials[material]?.color ?? {
         r: 255,
         g: 0,
         b: 255,
       };
 
-      let pixelIndex = i * 4;
+      if (material === Material.Fire) {
+        const lifetime = this.view.getUint8(i * 4 + 1);
+
+        if (lifetime > 45) {
+          r = 255;
+          g = 0;
+          b = 0;
+        } else if (lifetime > 20 && lifetime <= 45) {
+          r = 255;
+          g = 165;
+          b = 0;
+        } else if (lifetime > 5 && lifetime <= 20) {
+          r = 255;
+          g = 255;
+          b = 0;
+        } else {
+          r = 255;
+          g = 255;
+          b = 255;
+        }
+      }
+
+      const pixelIndex = i * 4;
 
       imageData.data[pixelIndex] = r;
       imageData.data[pixelIndex + 1] = g;
       imageData.data[pixelIndex + 2] = b;
       imageData.data[pixelIndex + 3] = 255;
-
-      // if (particle.material === Material.Fire) {
-      //   if (particle.r1 > 45) {
-      //     ctx.fillStyle = "red";
-      //   } else if (particle.r1 > 20 && particle.r1 <= 45) {
-      //     ctx.fillStyle = "orange";
-      //   } else if (particle.r1 > 5 && particle.r1 <= 20) {
-      //     ctx.fillStyle = "yellow";
-      //   } else {
-      //     ctx.fillStyle = "white";
-      //   }
-      // }
-      //
-      // ctx.fillRect(x, y, 1, 1);
     }
 
     ctx.putImageData(imageData, 0, 0);
